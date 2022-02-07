@@ -26,7 +26,7 @@ jobs:
         path: ".github/workflows/.test/*.md"
         libName: "test-lib"
         homeLink: "./hello"
-        indexLink: "./hello-index"
+        indexLink: "hello-index"
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.3.1
       with:
