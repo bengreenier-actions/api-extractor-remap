@@ -4117,7 +4117,7 @@ class InputMissingError extends Error {
 
 async function run() {
   try {
-    const pth = core.getInput("path") || "*.md";
+    const pth = core.getInput("path");
     const libName = core.getInput("libName");
     const indexLink = core.getInput("indexLink");
     const homeLink = core.getInput("homeLink");
@@ -4135,7 +4135,11 @@ async function run() {
       throw new InputMissingError("homeLink");
     }
 
-    const glob = await globber.create("*.md\n!index.md");
+    console.log(
+      `📃 Using path: '${pth}', libName: '${libName}', indexLink: '${indexLink}', homeLink: '${homeLink}'.`
+    );
+
+    const glob = await globber.create(pth);
     const files = await glob.glob();
     const convert = (str) => {
       // replace index.md
