@@ -18,8 +18,12 @@ jobs:
   # test action works running from the graph
   test:
     runs-on: ubuntu-latest
+    
     steps:
     - uses: actions/checkout@v2
     - uses: ./
       with:
-        milliseconds: 1000
+        path: ".github/workflows/.test/*.md"
+        libName: "test-lib"
+        homeLink: "./hello"
+        indexLink: "./hello-index"
