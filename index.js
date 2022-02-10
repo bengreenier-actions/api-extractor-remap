@@ -39,6 +39,7 @@ async function run() {
       // replace index.md
       if (str === "./index.md") {
         str = homeLink;
+        return str;
       }
 
       // replace all libNames
