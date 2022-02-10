@@ -4109,6 +4109,26 @@ const globber = __nccwpck_require__(90);
 const fs = __nccwpck_require__(747);
 const path = __nccwpck_require__(622);
 
+/**
+ * String.prototype.replaceAll() polyfill
+ * https://gomakethings.com/how-to-replace-a-section-of-a-string-with-another-one-with-vanilla-js/
+ * @author Chris Ferdinandi
+ * @license MIT
+ */
+if (!String.prototype.replaceAll) {
+  String.prototype.replaceAll = function (str, newStr) {
+    // If a regex pattern
+    if (
+      Object.prototype.toString.call(str).toLowerCase() === "[object regexp]"
+    ) {
+      return this.replace(str, newStr);
+    }
+
+    // If a string
+    return this.replace(new RegExp(str, "g"), newStr);
+  };
+}
+
 class InputMissingError extends Error {
   constructor(inputName) {
     super(`❌ Missing required input: ${inputName}`);
@@ -4142,9 +4162,14 @@ async function run() {
     const glob = await globber.create(pth);
     const files = await glob.glob();
     const convert = (str) => {
+      if (typeof str !== "string") {
+        throw new Error(`Expected '${str}' to be a string`);
+      }
+
       // replace index.md
       if (str === "./index.md") {
         str = homeLink;
+        return str;
       }
 
       // replace all libNames
